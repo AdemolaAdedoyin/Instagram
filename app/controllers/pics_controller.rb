@@ -3,9 +3,11 @@ before_action :find_pic, only: [:show, :edit, :update, :destroy, :upvote]
 before_action :authenticate_user!, except: [:index, :show]
 	def index
 		@pics = Pic.all.order("Created_at DESC")
+		@pics = Pic.search(params[:search])
 	end
 
 	def show
+		@comments = Comment.where(pic_id: @pic.id).order("created_at DESC")
 	end
 
 	def new
